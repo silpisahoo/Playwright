@@ -13,7 +13,7 @@ import org.testng.annotations.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MockAPITest2 {
+public class APITestWithMockServer {
     Playwright playwright;
     APIRequestContext apiRequestContext;
     Map<String, String> headers;
@@ -24,9 +24,7 @@ public class MockAPITest2 {
     }
 
     @Test
-    public void getCallTest() {
-        headers.clear();
-        //headers.put("Content-Type", "application/json");
+    public void getCallWithDynamicRespTest() {
         apiRequestContext = playwright.request().newContext(new APIRequest.NewContextOptions()
                 .setBaseURL("https://2aa08edc-409f-46ab-b3bf-1260b5622d88.mock.pstmn.io")
                 .setExtraHTTPHeaders(headers));
@@ -36,14 +34,12 @@ public class MockAPITest2 {
 
         JsonObject json = new Gson().fromJson(response,JsonObject.class);
         System.out.println(json.get("name"));
-
     }
 
     @AfterClass
     public  void  tearDown(){
         apiRequestContext.dispose();
        playwright.close();
-
     }
 
 }
